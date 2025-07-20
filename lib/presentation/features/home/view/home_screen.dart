@@ -15,14 +15,6 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isValid = false;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // mazen
-          Text('mazen'),
-        ],
-      ),
-    );
+    return Scaffold(appBar: AppBar(), body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text('mazen')]));
   }
 }
