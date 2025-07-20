@@ -20,6 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // mazen
+          Text('mazen'),
         ],
       ),
     );
