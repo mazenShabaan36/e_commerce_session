@@ -58,7 +58,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   //
                   Expanded(child: AppButton(onPressed: () => AlertsManager.showLoadingDialog(), title: "show Alert")),
-                  Expanded(child: AppButton(onPressed: () => poppingFromScreen(), title: "Back2")),
+                  Expanded(
+                    child: AppButton(
+                      onPressed:
+                          () => AlertsManager.showOptionalBottomSheet(
+                            "Are Your You Want to Cancel",
+
+                            onCancel: () {
+                              AlertsManager.showLoadingDialog();
+                            },
+                          ),
+                      title: "show Bottom Sheet",
+                    ),
+                  ),
+                  Expanded(child: AppButton(onPressed: () => AlertsManager.showAppToastMessage("Toast Succes"), title: "show toast")),
                 ],
               ),
             ),
