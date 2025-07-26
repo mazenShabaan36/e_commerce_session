@@ -127,6 +127,8 @@ class AlertsManager {
   }
 
   static Future<void> showAppToastMessage(String message, {Color? backgorundColor, Color? textColor, Toast? toastLength = Toast.LENGTH_LONG}) async {
-    await Fluttertoast.showToast(msg: message, toastLength: toastLength, backgroundColor: backgorundColor, textColor: textColor, fontSize: 16);
+    final snackBar = SnackBar(backgroundColor: backgorundColor, content: Text(message));
+
+    ScaffoldMessenger.of(appContext).showSnackBar(snackBar);
   }
 }
