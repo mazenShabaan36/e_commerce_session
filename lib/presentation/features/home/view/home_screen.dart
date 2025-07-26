@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:session/core/app_colors.dart';
 import 'package:session/core/managers/alerts_manager.dart';
+import 'package:session/core/theme/theme_manager.dart';
 import 'package:session/presentation/features/home/widgets/home_screen_container_content.dart';
 import 'package:session/presentation/widgets/app_button.dart';
 
@@ -21,8 +22,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isDarkMode = ThemeManager.themeNotifier.value == ThemeMode.dark;
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        actions: [
+          Switch(
+            value: isDarkMode,
+            //
+            onChanged: (value) => ThemeManager.toggleTheme(),
+          ),
+        ],
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
@@ -75,6 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
+            Text("mazen"),
           ],
           //
         ),
