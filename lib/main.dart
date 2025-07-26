@@ -7,6 +7,10 @@ void main() {
   runApp(const MyApp());
 }
 
+// to get current context from any where
+final GlobalKey<NavigatorState> appKey = GlobalKey<NavigatorState>();
+BuildContext get appContext => appKey.currentContext!;
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -48,6 +52,7 @@ class MyApp extends StatelessWidget {
       ),
       //
       home: LoginScreen(),
+      navigatorKey: appKey,
     );
   }
 }
