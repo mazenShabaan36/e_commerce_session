@@ -5,4 +5,6 @@ class AppStrings {
   static const String registerNewAccount = "Register in New Account";
   static const String cancel = "Cancel";
   static const String confirm = "Confirm";
+  static const String products = 'Products';
+  static const String buyNow = "Buy Now";
 }

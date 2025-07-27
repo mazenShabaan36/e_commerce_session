@@ -9,7 +9,7 @@ class AppThemes {
   static ThemeData _generalTheme({required bool isDark}) {
     return ThemeData(
       brightness: isDark ? Brightness.dark : Brightness.light,
-      scaffoldBackgroundColor: isDark ? AppColors.black : AppColors.white,
+      scaffoldBackgroundColor: isDark ? AppColors.black : AppColors.lightGrey,
       primaryColor: AppColors.primary,
 
       inputDecorationTheme: InputDecorationTheme(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:session/core/app_colors.dart';
 import 'package:session/core/app_strings.dart';
 import 'package:session/presentation/features/home/view/home_screen.dart';
+import 'package:session/presentation/features/product_list/view/product_screen.dart';
 import 'package:session/presentation/widgets/app_button.dart';
 import 'package:session/presentation/widgets/app_textfield.dart';
 
@@ -68,7 +69,12 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
 
             //
-            TextButton(onPressed: () {}, child: Text(AppStrings.registerNewAccount, style: TextStyle(color: AppColors.black, fontSize: 14, fontWeight: FontWeight.w700))),
+            TextButton(
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ProductsScreen()));
+              },
+              child: Text(AppStrings.registerNewAccount, style: TextStyle(color: AppColors.black, fontSize: 14, fontWeight: FontWeight.w700)),
+            ),
           ],
         ),
       ),
