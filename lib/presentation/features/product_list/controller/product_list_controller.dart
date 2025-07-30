@@ -11,9 +11,10 @@ class ProductListController {
   Future<List<Product>> getProducts() async {
     try {
       final response = await apiService.get(path: ApiConstants.products);
+      final List<dynamic> dataList = response.data as List;
       // debugPrint(response.data.runtimeType.toString());
       if (response.statusCode == 200) {
-        return response.data.map((e) => Product.fromJson(e)).toList();
+        return dataList.map((e) => Product.fromJson(e)).toList();
       }
       return [];
     } catch (e) {
