@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:session/core/animations/horizontal_animation.dart';
+import 'package:session/core/animations/scale_animation.dart';
+import 'package:session/core/animations/size_animation.dart';
 import 'package:session/core/app_colors.dart';
 import 'package:session/core/managers/alerts_manager.dart';
+import 'package:session/core/theme/theme_manager.dart';
 import 'package:session/presentation/features/home/widgets/home_screen_container_content.dart';
 import 'package:session/presentation/widgets/app_button.dart';
 
@@ -21,8 +25,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isDarkMode = ThemeManager.themeNotifier.value == ThemeMode.dark;
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        actions: [
+          Switch(
+            value: isDarkMode,
+            //
+            onChanged: (value) => ThemeManager.toggleTheme(),
+          ),
+        ],
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
@@ -31,50 +44,73 @@ class _HomeScreenState extends State<HomeScreen> {
           //
           children: [
             //
-            HomeScreenContainerContent(
-              //
-              title: "UI Widgets: InkWell, ElevatedButton, IconButton",
-              subtitle: "These are fundamental Flutter widgets for user interaction.",
-              mainColor: AppColors.primary,
-              child: Row(
+            HorizontalAnimation(
+              leftToRight: false,
+              child: HomeScreenContainerContent(
                 //
-                spacing: 8,
-                children: [
+                title: "UI Widgets: InkWell, ElevatedButton, IconButton",
+                subtitle: "These are fundamental Flutter widgets for user interaction.",
+                mainColor: AppColors.primary,
+                child: Row(
                   //
-                  Expanded(child: AppButton(onPressed: () => poppingFromScreen(), title: "Back1")),
-                  Expanded(child: AppButton(onPressed: () => poppingFromScreen(), title: "Back2")),
-                ],
+                  spacing: 8,
+                  children: [
+                    //
+                    Expanded(child: AppButton(onPressed: () => poppingFromScreen(), title: "Back1")),
+                    Expanded(child: AppButton(onPressed: () => poppingFromScreen(), title: "Back2")),
+                  ],
+                ),
+              ),
+            ),
+            ScaleAnimation(
+              child: HomeScreenContainerContent(
+                //
+                title: "UI Widgets: InkWell, ElevatedButton, IconButton",
+                subtitle: "These are fundamental Flutter widgets for user interaction.",
+                mainColor: AppColors.primary,
+                child: Row(
+                  //
+                  spacing: 8,
+                  children: [
+                    //
+                    Expanded(child: AppButton(onPressed: () => poppingFromScreen(), title: "Back1")),
+                    Expanded(child: AppButton(onPressed: () => poppingFromScreen(), title: "Back2")),
+                  ],
+                ),
               ),
             ),
 
-            HomeScreenContainerContent(
-              //
-              title: "Dialogs, BottomSheets, SnackBars",
-              subtitle: "These are common UI patterns for displaying temporary information or collecting input.",
-              mainColor: AppColors.red,
-              child: Row(
+            SizeAnimation(
+              child: HomeScreenContainerContent(
                 //
-                spacing: 8,
-                children: [
+                title: "Dialogs, BottomSheets, SnackBars",
+                subtitle: "These are common UI patterns for displaying temporary information or collecting input.",
+                mainColor: AppColors.red,
+                child: Row(
                   //
-                  Expanded(child: AppButton(onPressed: () => AlertsManager.showLoadingDialog(), title: "show Alert")),
-                  Expanded(
-                    child: AppButton(
-                      onPressed:
-                          () => AlertsManager.showOptionalBottomSheet(
-                            "Are Your You Want to Cancel",
+                  spacing: 8,
+                  children: [
+                    //
+                    Expanded(child: AppButton(onPressed: () => AlertsManager.showLoadingDialog(), title: "show Alert")),
+                    Expanded(
+                      child: AppButton(
+                        onPressed:
+                            () => AlertsManager.showOptionalBottomSheet(
+                              "Are Your You Want to Cancel",
 
-                            onCancel: () {
-                              AlertsManager.showLoadingDialog();
-                            },
-                          ),
-                      title: "show Bottom Sheet",
+                              onCancel: () {
+                                AlertsManager.showLoadingDialog();
+                              },
+                            ),
+                        title: "show Bottom Sheet",
+                      ),
                     ),
-                  ),
-                  Expanded(child: AppButton(onPressed: () => AlertsManager.showAppToastMessage("Toast Succes"), title: "show toast")),
-                ],
+                    Expanded(child: AppButton(onPressed: () => AlertsManager.showAppToastMessage("Toast Succes"), title: "show toast")),
+                  ],
+                ),
               ),
             ),
+            Text("mazen"),
           ],
           //
         ),
