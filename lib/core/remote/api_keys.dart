@@ -8,4 +8,9 @@ class ApiKeys {
   static const String rate = 'rate';
   static const String count = 'count';
   static const String rating = 'rating';
+  static const String userID = 'userId';
+  static const String products = 'products';
+  static const String date = 'date';
+  static const String productId = 'productId';
+  static const String quantity = 'quantity';
 }

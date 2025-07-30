@@ -4,6 +4,7 @@ import 'package:session/core/app_colors.dart';
 import 'package:session/core/app_strings.dart';
 import 'package:session/core/theme/theme_manager.dart';
 import 'package:session/data/models/product_model.dart';
+import 'package:session/presentation/features/cart/view/cart_screen.dart';
 import 'package:session/presentation/features/product_list/controller/product_list_controller.dart';
 import 'package:session/presentation/features/product_list/view/product_details_screen.dart';
 import 'package:session/presentation/features/product_list/widgets/product_item_card.dart';
@@ -45,11 +46,20 @@ class _ProductsScreenState extends State<ProductsScreen> {
         title: Text(AppStrings.products),
         actions: [
           //
-          Switch(
-            value: isDarkMode,
-            //
-            onChanged: (value) => ThemeManager.toggleTheme(),
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CartScreen()),
+              );
+            },
+            icon: Icon(Icons.shopping_bag),
           ),
+          // Switch(
+          //   value: isDarkMode,
+          //   //
+          //   onChanged: (value) => ThemeManager.toggleTheme(),
+          // ),
         ],
       ),
       body:

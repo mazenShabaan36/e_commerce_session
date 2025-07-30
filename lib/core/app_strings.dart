@@ -7,4 +7,5 @@ class AppStrings {
   static const String confirm = "Confirm";
   static const String products = 'Products';
   static const String buyNow = "Buy Now";
+  static const String cart = "Cart";
 }
