@@ -1,8 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:session/core/app_colors.dart';
+import 'package:session/core/validators/app_validator.dart';
 
 class AppTextField extends StatelessWidget {
-  const AppTextField({super.key, required this.controller, required this.onChange, this.hint, this.suffixIcon, this.prefixIcon, this.style, this.keyboardType, this.isReadOnly, this.obscureText, this.width, this.height});
+  const AppTextField({
+    super.key,
+    required this.controller,
+    required this.onChange,
+    this.hint,
+    this.suffixIcon,
+    this.prefixIcon,
+    this.style,
+    this.keyboardType,
+    this.isReadOnly,
+    this.obscureText,
+    this.width,
+    this.height,
+    this.validator,
+  });
   final TextEditingController controller;
   final Function(String)? onChange;
   final String? hint;
@@ -14,24 +29,53 @@ class AppTextField extends StatelessWidget {
   final bool? obscureText;
   final double? width;
   final double? height;
+  final AppValidator? validator;
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: height ?? 50,
-      width: width ?? double.infinity,
-      child: TextFormField(
-        controller: controller,
-        //
-        onChanged: onChange,
-        //
-        decoration: InputDecoration(hintText: hint, suffixIcon: suffixIcon, prefixIcon: prefixIcon),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          height: height ?? 50,
+          width: width ?? double.infinity,
+          child: TextFormField(
+            controller: controller,
+            //
+            onChanged: onChange,
 
-        //
-        style: style ?? TextStyle(fontSize: 14, color: AppColors.black),
-        keyboardType: keyboardType ?? TextInputType.text,
-        readOnly: isReadOnly ?? false,
-        obscureText: obscureText ?? false,
-      ),
+            //
+            decoration: InputDecoration(
+              hintText: hint,
+              suffixIcon: suffixIcon,
+              prefixIcon: prefixIcon,
+            ),
+
+            //
+            style: style ?? TextStyle(fontSize: 14, color: AppColors.black),
+            keyboardType: keyboardType ?? TextInputType.text,
+            readOnly: isReadOnly ?? false,
+            obscureText: obscureText ?? false,
+          ),
+        ),
+        if (validator != null) getValidationHints(),
+      ],
+    );
+  }
+
+  Widget getValidationHints() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ...validator!.reasons.map(
+          (e) => Column(
+            children: [
+              const SizedBox(height: 5),
+              Text(e, style: TextStyle(color: AppColors.red, fontSize: 12)),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
