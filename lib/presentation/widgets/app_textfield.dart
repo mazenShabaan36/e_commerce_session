@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:session/core/app_colors.dart';
 import 'package:session/core/validators/app_validator.dart';
 
@@ -17,6 +18,7 @@ class AppTextField extends StatelessWidget {
     this.width,
     this.height,
     this.validator,
+    this.inputFormatters,
   });
   final TextEditingController controller;
   final Function(String)? onChange;
@@ -30,6 +32,7 @@ class AppTextField extends StatelessWidget {
   final double? width;
   final double? height;
   final AppValidator? validator;
+  final List<TextInputFormatter>? inputFormatters;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -44,6 +47,7 @@ class AppTextField extends StatelessWidget {
             onChanged: onChange,
 
             //
+            inputFormatters: inputFormatters,
             decoration: InputDecoration(
               hintText: hint,
               suffixIcon: suffixIcon,
