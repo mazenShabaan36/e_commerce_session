@@ -75,12 +75,15 @@ class _LoginScreenState extends State<LoginScreen> {
 
             //
             AppButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => HomeScreen()),
-                );
-              },
+              onPressed:
+                  emailAppValidator.isValid
+                      ? () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => HomeScreen()),
+                        );
+                      }
+                      : null,
               title: AppStrings.login,
               height: 50,
             ),

@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   fluttertoast: ^8.2.12
   dio: ^5.8.0+1
+  phone_numbers_parser: ^9.0.3
 
 dev_dependencies:
   flutter_test:
