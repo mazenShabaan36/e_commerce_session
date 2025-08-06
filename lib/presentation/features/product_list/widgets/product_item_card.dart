@@ -18,24 +18,41 @@ class ProductItemCard extends StatelessWidget {
             transitionDuration: Duration(milliseconds: 500),
             pageBuilder: (_, __, ___) => ProductDetailsScreen(product: product),
             transitionsBuilder: (_, animation, __, child) {
-              return FadeTransition(opacity: animation, child: SlideTransition(position: Tween<Offset>(begin: Offset(1.0, 0.0), end: Offset.zero).animate(animation), child: child));
+              return FadeTransition(
+                opacity: animation,
+                child: SlideTransition(
+                  position: Tween<Offset>(
+                    begin: Offset(1.0, 0.0),
+                    end: Offset.zero,
+                  ).animate(animation),
+                  child: child,
+                ),
+              );
             },
           ),
         );
       },
       child: Container(
         padding: EdgeInsets.all(16),
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: AppColors.white),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: AppColors.white,
+        ),
         child: Row(
           spacing: 16,
           children: [
             //
             Hero(
-              tag: product.name,
+              tag: product.id,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 //
-                child: Image.asset(product.image, width: 120, height: 120, fit: BoxFit.cover),
+                child: Image.network(
+                  product.image,
+                  width: 120,
+                  height: 120,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
 
@@ -43,7 +60,7 @@ class ProductItemCard extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(product.name),
+                Text(product.title),
                 //
                 Text('\$${product.price.toStringAsFixed(2)}'),
               ],

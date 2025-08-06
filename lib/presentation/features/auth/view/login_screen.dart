@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:session/core/app_colors.dart';
 import 'package:session/core/app_strings.dart';
+import 'package:session/core/validators/app_validator_types/email_app_validator.dart';
 import 'package:session/presentation/features/home/view/home_screen.dart';
 import 'package:session/presentation/features/product_list/view/product_screen.dart';
 import 'package:session/presentation/widgets/app_button.dart';
@@ -16,6 +17,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController password = TextEditingController();
+  EmailAppValidator emailAppValidator = EmailAppValidator();
   bool isObsecure = true;
   @override
   Widget build(BuildContext context) {
@@ -27,13 +29,21 @@ class _LoginScreenState extends State<LoginScreen> {
           spacing: 15,
           children: [
             //
-            Center(child: CircleAvatar(radius: 30, child: Icon(Icons.person, size: 40))),
+            Center(
+              child: CircleAvatar(
+                radius: 30,
+                child: Icon(Icons.person, size: 40),
+              ),
+            ),
             SizedBox(height: 15),
             //
             AppTextField(
               controller: emailController,
+              validator: emailAppValidator,
               onChange: (v) {
-                setState(() {});
+                setState(() {
+                  emailAppValidator.setValue(v);
+                });
               },
               prefixIcon: Icon(Icons.email),
               hint: AppStrings.emailAddress,
@@ -52,7 +62,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     isObsecure = !isObsecure;
                   });
                 },
-                child: Icon(isObsecure ? Icons.visibility_off : Icons.visibility, size: 20, color: AppColors.grey),
+                child: Icon(
+                  isObsecure ? Icons.visibility_off : Icons.visibility,
+                  size: 20,
+                  color: AppColors.grey,
+                ),
               ),
               onChange: (v) {
                 setState(() {});
@@ -61,9 +75,15 @@ class _LoginScreenState extends State<LoginScreen> {
 
             //
             AppButton(
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
-              },
+              onPressed:
+                  emailAppValidator.isValid
+                      ? () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => HomeScreen()),
+                        );
+                      }
+                      : null,
               title: AppStrings.login,
               height: 50,
             ),
@@ -71,9 +91,19 @@ class _LoginScreenState extends State<LoginScreen> {
             //
             TextButton(
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => ProductsScreen()));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProductsScreen()),
+                );
               },
-              child: Text(AppStrings.registerNewAccount, style: TextStyle(color: AppColors.black, fontSize: 14, fontWeight: FontWeight.w700)),
+              child: Text(
+                AppStrings.registerNewAccount,
+                style: TextStyle(
+                  color: AppColors.black,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
             ),
           ],
         ),
