@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:session/core/animations/horizontal_animation.dart';
-import 'package:session/core/animations/scale_animation.dart';
-import 'package:session/core/animations/size_animation.dart';
-import 'package:session/core/app_colors.dart';
-import 'package:session/core/managers/alerts_manager.dart';
-import 'package:session/core/theme/theme_manager.dart';
-import 'package:session/presentation/features/home/widgets/home_screen_container_content.dart';
-import 'package:session/presentation/widgets/app_button.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:session/core/app_assets.dart';
+import 'package:session/core/app_strings.dart';
+import 'package:session/data/models/product_model.dart';
+
+import 'package:session/presentation/features/home/widgets/categories_list.dart';
+
+import 'package:session/presentation/features/home/widgets/offers_card.dart';
+import 'package:session/presentation/features/home/widgets/welcoming_row.dart';
+import 'package:session/presentation/features/product_list/controller/product_list_controller.dart';
+import 'package:session/presentation/features/product_list/widgets/product_item_card.dart';
+import 'package:session/presentation/widgets/app_textfield.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
@@ -17,102 +21,65 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController field = TextEditingController();
+  final ProductListController productListController = ProductListController();
+  bool isLoading = true;
   bool isValid = false;
-  void poppingFromScreen() {
-    ///calculation
-    Navigator.pop(context);
+  List<Product> products = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    loadData();
+  }
+
+  Future<void> loadData() async {
+    final results = await productListController.getProducts();
+
+    setState(() {
+      products = results;
+      isLoading = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final bool isDarkMode = ThemeManager.themeNotifier.value == ThemeMode.dark;
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          Switch(
-            value: isDarkMode,
-            //
-            onChanged: (value) => ThemeManager.toggleTheme(),
-          ),
-        ],
-      ),
+      extendBodyBehindAppBar: true,
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           spacing: 16,
-          //
           children: [
+            const WelcomingRow(),
             //
-            HorizontalAnimation(
-              leftToRight: false,
-              child: HomeScreenContainerContent(
-                //
-                title: "UI Widgets: InkWell, ElevatedButton, IconButton",
-                subtitle: "These are fundamental Flutter widgets for user interaction.",
-                mainColor: AppColors.primary,
-                child: Row(
-                  //
-                  spacing: 8,
-                  children: [
-                    //
-                    Expanded(child: AppButton(onPressed: () => poppingFromScreen(), title: "Back1")),
-                    Expanded(child: AppButton(onPressed: () => poppingFromScreen(), title: "Back2")),
-                  ],
-                ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 16),
+              //
+              child: AppTextField(
+                controller: field,
+                hint: AppStrings.whatAreYouLookingFor,
+                onChange: (value) {
+                  setState(() {});
+                },
+                prefixIcon: InkWell(child: Transform.scale(scale: 0.5, child: SvgPicture.asset(AppAssets.search))),
               ),
             ),
-            ScaleAnimation(
-              child: HomeScreenContainerContent(
-                //
-                title: "UI Widgets: InkWell, ElevatedButton, IconButton",
-                subtitle: "These are fundamental Flutter widgets for user interaction.",
-                mainColor: AppColors.primary,
-                child: Row(
-                  //
-                  spacing: 8,
-                  children: [
-                    //
-                    Expanded(child: AppButton(onPressed: () => poppingFromScreen(), title: "Back1")),
-                    Expanded(child: AppButton(onPressed: () => poppingFromScreen(), title: "Back2")),
-                  ],
-                ),
-              ),
-            ),
+            //
+            const OffersCard(),
+            //
+            const CategoriesList(),
 
-            SizeAnimation(
-              child: HomeScreenContainerContent(
-                //
-                title: "Dialogs, BottomSheets, SnackBars",
-                subtitle: "These are common UI patterns for displaying temporary information or collecting input.",
-                mainColor: AppColors.red,
-                child: Row(
+            isLoading
+                ? Center(child: CircularProgressIndicator())
+                : Wrap(
+                  spacing: 10,
+                  runSpacing: 10,
                   //
-                  spacing: 8,
-                  children: [
-                    //
-                    Expanded(child: AppButton(onPressed: () => AlertsManager.showLoadingDialog(), title: "show Alert")),
-                    Expanded(
-                      child: AppButton(
-                        onPressed:
-                            () => AlertsManager.showOptionalBottomSheet(
-                              "Are Your You Want to Cancel",
-
-                              onCancel: () {
-                                AlertsManager.showLoadingDialog();
-                              },
-                            ),
-                        title: "show Bottom Sheet",
-                      ),
-                    ),
-                    Expanded(child: AppButton(onPressed: () => AlertsManager.showAppToastMessage("Toast Succes"), title: "show toast")),
-                  ],
+                  children: products.map((e) => ProductItemCard(product: e)).toList(),
                 ),
-              ),
-            ),
-            Text("mazen"),
           ],
-          //
         ),
       ),
     );

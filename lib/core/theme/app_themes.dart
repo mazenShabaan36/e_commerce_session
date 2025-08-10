@@ -13,6 +13,8 @@ class AppThemes {
       primaryColor: AppColors.primary,
 
       inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: AppColors.colorGreyMed,
         contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         hintStyle: TextStyle(fontSize: 14, color: isDark ? AppColors.white : AppColors.grey, fontWeight: FontWeight.w400),
         enabledBorder: OutlineInputBorder(borderSide: BorderSide(width: 1, color: isDark ? AppColors.white : AppColors.grey), borderRadius: BorderRadius.circular(8)),
