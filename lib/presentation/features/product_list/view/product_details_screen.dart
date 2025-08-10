@@ -17,23 +17,14 @@ class ProductDetailsScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(height: 20),
-            Hero(
-              tag: product.id,
-              child: Image.asset(product.image, width: 200),
-            ), //
+            Hero(tag: product.id!, child: Image.asset(product.image, width: 200)), //
 
             SizedBox(height: 20),
             //
-            Text(
-              product.title,
-              style: Theme.of(context).textTheme.headlineSmall,
-            ),
+            Text(product.title, style: Theme.of(context).textTheme.headlineSmall),
             //
             SizedBox(height: 10),
-            Text(
-              '\$${product.price}',
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
+            Text('\$${product.price}', style: Theme.of(context).textTheme.titleLarge),
             //
             SizedBox(height: 20),
             //

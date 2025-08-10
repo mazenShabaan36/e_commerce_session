@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:session/core/app_colors.dart';
+import 'package:session/core/managers/shared_preferences_manager.dart';
 import 'package:session/core/theme/app_themes.dart';
 import 'package:session/core/theme/theme_manager.dart';
 import 'package:session/presentation/features/auth/view/login_screen.dart';
 import 'package:session/presentation/features/home/view/home_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SharedPreferenceManager.init();
   runApp(const MyApp());
 }
 

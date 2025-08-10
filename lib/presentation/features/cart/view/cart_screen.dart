@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:session/core/app_assets.dart';
 import 'package:session/core/app_colors.dart';
 import 'package:session/core/app_strings.dart';
+import 'package:session/core/text_styles.dart';
 import 'package:session/data/models/cart_model.dart';
+import 'package:session/data/models/product_model.dart';
 import 'package:session/presentation/features/cart/controller/cart_controller.dart';
-import 'package:session/presentation/features/product_list/widgets/product_item_card.dart';
+import 'package:session/presentation/features/cart/view/widgets/cart_item_card.dart';
+import 'package:session/presentation/features/cart/view/widgets/checkout_section.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -17,6 +22,7 @@ class _CartScreenState extends State<CartScreen> {
 
   bool isLoading = true;
   List<Cart> carts = [];
+  List<Product> products = [];
 
   @override
   void initState() {
@@ -30,6 +36,10 @@ class _CartScreenState extends State<CartScreen> {
 
     setState(() {
       carts = results;
+    });
+    final results2 = await cartController.getCartProducts(carts);
+    setState(() {
+      products = results2;
       isLoading = false;
     });
   }
@@ -37,48 +47,43 @@ class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(AppStrings.cart)),
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(AppStrings.cart, style: Styles.style16mainClrL),
+        backgroundColor: AppColors.colorWhiteLight,
+        foregroundColor: AppColors.mainColor,
+        elevation: 0,
+        leadingWidth: 40,
+        //
+        leading: GestureDetector(
+          onTap: () {},
+          //
+          child: SvgPicture.asset(
+            AppAssets.arrowBackIcon,
+            //
+            color: AppColors.mainColor,
+            height: 20,
+            width: 20,
+          ),
+        ),
+      ),
       body:
           isLoading
               ? Center(child: CircularProgressIndicator())
-              : Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 16,
-                ),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: ListView.separated(
-                        itemCount: carts.length,
-                        separatorBuilder:
-                            (context, index) => SizedBox(height: 16),
-                        itemBuilder: (context, index) {
-                          final cart = carts[index];
-                          return ExpansionTile(
-                            backgroundColor: AppColors.white,
-                            collapsedBackgroundColor: AppColors.white,
-                            title: Text(
-                              'Cart #${cart.id} (User ${cart.userId})',
-                            ),
-                            subtitle: Text(
-                              'Date: ${cart.date.toLocal().toIso8601String().split("T")[0]}',
-                            ),
-                            children:
-                                cart.products.map((item) {
-                                  return ListTile(
-                                    title: Text(
-                                      'Product ID: ${item.productId}',
-                                    ),
-                                    trailing: Text('Qty: ${item.quantity}'),
-                                  );
-                                }).toList(),
-                          );
-                        },
-                      ),
+              : Column(
+                children: [
+                  Expanded(
+                    child: ListView.separated(
+                      itemCount: products.length,
+                      separatorBuilder: (context, index) => SizedBox(height: 16),
+                      itemBuilder: (context, index) {
+                        final product = products[index];
+                        return CartItemCard(item: product, index: index);
+                      },
                     ),
-                  ],
-                ),
+                  ),
+                  CheckOutSection(),
+                ],
               ),
     );
   }
