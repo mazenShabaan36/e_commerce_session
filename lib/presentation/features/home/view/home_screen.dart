@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:session/core/app_assets.dart';
 import 'package:session/core/app_strings.dart';
@@ -9,6 +10,7 @@ import 'package:session/presentation/features/home/widgets/categories_list.dart'
 import 'package:session/presentation/features/home/widgets/offers_card.dart';
 import 'package:session/presentation/features/home/widgets/welcoming_row.dart';
 import 'package:session/presentation/features/product_list/controller/product_list_controller.dart';
+import 'package:session/presentation/features/product_list/controller/products_bloc.dart';
 import 'package:session/presentation/features/product_list/widgets/product_item_card.dart';
 import 'package:session/presentation/widgets/app_textfield.dart';
 
@@ -71,14 +73,25 @@ class _HomeScreenState extends State<HomeScreen> {
             //
             const CategoriesList(),
 
-            isLoading
-                ? Center(child: CircularProgressIndicator())
-                : Wrap(
-                  spacing: 10,
-                  runSpacing: 10,
-                  //
-                  children: products.map((e) => ProductItemCard(product: e)).toList(),
-                ),
+            BlocProvider(
+              create: (context) => ProductsBloc()..add(FetchProducts()),
+              child: BlocBuilder<ProductsBloc, ProductsState>(
+                builder: (context, state) {
+                  if (state is ProductsLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (state is ProductsLoaded) {
+                    return Wrap(
+                      spacing: 10,
+                      runSpacing: 10,
+                      //
+                      children: state.productsList.map((e) => ProductItemCard(product: e)).toList(),
+                    );
+                  } else {
+                    return Container();
+                  }
+                },
+              ),
+            ),
           ],
         ),
       ),

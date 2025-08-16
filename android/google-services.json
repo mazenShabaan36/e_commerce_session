@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "901298340991",
+    "project_id": "session-e9535",
+    "storage_bucket": "session-e9535.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:901298340991:android:5bdfea4590ab5256c86b4a",
+        "android_client_info": {
+          "package_name": "com.example.session"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBme8EWJwtz7WFHFcEJz2NkC5yPWTcQ1Xo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

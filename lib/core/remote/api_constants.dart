@@ -4,5 +4,5 @@ class ApiConstants {
   static const String carts = '/carts';
   static const String categories = '/products/categories';
   static const String productsInCategory = '/products/category/';
-  static const String cartItems = 'carts/user/1';
+  static const String cartItems = '/carts/user/1';
 }
